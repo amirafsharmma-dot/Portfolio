@@ -63,7 +63,8 @@
         // buttons.id = elem.id;
         container.appendChild(buttons);
       });
-
+      
+      let isLoked = false
       function cartBox() {
         container.addEventListener("click", function (e) {
           if (e.target.tagName === "BUTTON") {
@@ -81,6 +82,7 @@
               secendNumber = clickbtn;
               // secendId = idBtn;
               secendNumber.disabled = true;
+              isLoked = true
               console.log(secendNumber);
             }
             if (
@@ -113,6 +115,7 @@
                 // ریست کردن برای زوج بعدی
                 firstNumber = null;
                 secendNumber = null;
+                isLoked = false
                 // firstId = null;
                 // secendId = null;
               }, 1000);
