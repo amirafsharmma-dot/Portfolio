@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: burlywood;
+        font-family: sans-serif;
+      }
+
+      .container {
+        background-color: white;
+        padding: 1rem 2rem;
+        border-radius: 0.4rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .masege {
+        margin: 1rem auto 0;
+      }
+
+      .math--num {
+        margin: 2rem auto;
+        font-size: 2rem;
+        font-family: sans-serif;
+      }
+      .user--num {
+        outline: none;
+        border: none;
+        background-color: rgb(240, 238, 238);
+
+        padding: 1rem;
+        border-radius: 0.4rem;
+      }
+
+      .borderbox {
+        border: 1px solid red;
+      }
+      #error {
+        color: red;
+        margin: 0.2rem 0 0 0.2rem;
+        font-size: 0.8rem;
+      }
+
+      .contbox {
+        display: flex;
+        align-items: center;
+        /* padding-top: .4rem; */
+        /* background-color: red; */
+      }
+
+      #True {
+        color: green;
+        font-size: 1.2rem;
+        padding-top: 0.4rem;
+      }
+
+      #False {
+        color: red;
+        font-size: 1.2rem;
+        padding-top: 0.4rem;
+      }
+      .submit {
+        margin: 0.8rem auto 0;
+        padding: 0.4rem 0.8rem;
+        border: none;
+        background: none;
+        font-size: 1.2rem;
+        width: fit-content;
+      }
+
+      .yesnum {
+        color: green;
+      }
+
+      .nonum {
+        color: red;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="masege" id="masege">chose a number 1 to 10</div>
+      <div class="math--num" id="math--num"></div>
+
+      <input type="number" id="user--num" class="user--num" />
+      <span id="error"></span>
+
+      <div class="contbox">
+        <span id="False"></span>
+        <input type="button" value="cheack" id="submit" class="submit" />
+        <span id="True"></span>
+      </div>
+    </div>
+
+    <script>
+      const masege = document.getElementById("masege");
+      const mathN = document.getElementById("math--num");
+      const userN = document.getElementById("user--num");
+      const errorbox = document.getElementById("error");
+      const submitbtn = document.getElementById("submit");
+      const Tnum = document.getElementById("True");
+      const Fnum = document.getElementById("False");
+
+      // جلوگیری از تغییر عدد با کلیدهای بالا/پایین
+      userN.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+          event.preventDefault();
+        }
+      });
+
+      userN.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          getRandomNumber();
+        }
+      });
+
+      submitbtn.addEventListener("click", getRandomNumber);
+
+      let randomNum = Math.floor(Math.random() * 10) + 1;
+      let scoreT = 1;
+      let scoreF = 1;
+
+      function getRandomNumber() {
+        if (userN.value !== "") {
+          errorbox.textContent = "";
+          userN.classList.remove("borderbox");
+
+          if (userN.value > 10 || userN.value < 1) {
+            mathN.textContent = "";
+            masege.textContent = "Please Chose a number 1 to 10";
+            userN.value = "";
+            [Tnum, Fnum].forEach((el) => el.textContent = "");
+
+            masege.classList.add("nonum");
+            userN.classList.add("borderbox");
+            errorbox.textContent = "Pleas Add Your Number";
+            userN.focus();
+
+          } else if (userN.value == randomNum) {
+            masege.textContent = "True";
+            [mathN, masege].forEach((el) => el.classList.add("yesnum"));
+            [mathN, masege].forEach((el) => el.classList.remove("nonum"));
+            mathN.textContent = randomNum;
+            Tnum.textContent = scoreT;
+            scoreT++;
+
+            //"شروع مجدد"
+            randomNum = Math.floor(Math.random() * 10) + 1;
+          } else {
+            masege.textContent = "False";
+            [mathN, masege].forEach((el) => el.classList.add("nonum"));
+            [mathN, masege].forEach((el) => el.classList.remove("yesnum"));
+            mathN.textContent = "";
+            Fnum.textContent = scoreF;
+            scoreF++;
+          }
+
+          userN.value = "";
+          userN.focus();
+        } else {
+          errorbox.textContent = "Pleas Add Your Number";
+          userN.classList.add("borderbox");
+          userN.focus();
+        }
+      }
+    </script>
+  </body>
+</html>

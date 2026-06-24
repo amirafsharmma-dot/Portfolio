@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      #container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.4rem;
+        background-color: #eee;
+        padding: 0.5rem;
+        border-radius: 0.4rem;
+        box-shadow:
+          1px,
+          1px,
+          10px #000;
+        /* width: fit-content; */
+        height: 100px;
+      }
+
+      button {
+        background-color: black;
+      }
+
+      .edi {
+        background: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script>
+      const container = document.getElementById("container");
+
+      let element = [
+        { id: 1, name: "Laptop" },
+        { id: 2, name: "Shoes" },
+        { id: 3, name: "Watch" },
+        { id: 4, name: "T-Shirt" },
+        { id: 5, name: "Laptop" },
+        { id: 6, name: "Shoes" },
+        { id: 7, name: "Watch" },
+        { id: 8, name: "T-Shirt" },
+      ];
+
+      let firstNumber = null;
+      let secendNumber = null;
+      // let firstId = null;
+      // let secendId = null;
+
+      element.forEach((elem) => {
+        const buttons = document.createElement("button");
+        buttons.textContent = elem.name;
+        // buttons.id = elem.id;
+        container.appendChild(buttons);
+      });
+
+      function cartBox() {
+        container.addEventListener("click", function (e) {
+          if (e.target.tagName === "BUTTON") {
+            const clickbtn = e.target;
+            // const idBtn = e.target.id;
+            // console.log(idBtn);
+            clickbtn.classList.add("edi");
+
+            if (!firstNumber) {
+              firstNumber = clickbtn;
+              // firstId = idBtn;
+              firstNumber.disabled = true;
+              console.log(firstNumber);
+            } else {
+              secendNumber = clickbtn;
+              // secendId = idBtn;
+              secendNumber.disabled = true;
+              console.log(secendNumber);
+            }
+            if (
+              firstNumber &&
+              secendNumber &&
+              firstNumber.textContent === secendNumber.textContent
+              // firstId !== secendId
+            ) {
+              console.log("correct");
+              firstNumber.disabled = true;
+              secendNumber.disabled = true;
+              firstNumber = null;
+              secendNumber = null;
+              // firstId = null;
+              // secendId = null;
+            } else if (
+              firstNumber &&
+              secendNumber
+              // firstNumber !== secendNumber
+            ) {
+              setTimeout(() => {
+                // firstNumber.classList.remove("edi");
+                // secendNumber.classList.remove("edi");
+                [firstNumber, secendNumber].forEach((b) => {
+                  b.classList.remove("edi");
+                });
+                console.log("incorrect");
+                firstNumber.disabled = false;
+                secendNumber.disabled = false;
+                // ریست کردن برای زوج بعدی
+                firstNumber = null;
+                secendNumber = null;
+                // firstId = null;
+                // secendId = null;
+              }, 1000);
+            }
+          }
+        });
+      }
+      cartBox();
+    </script>
+  </body>
+</html>

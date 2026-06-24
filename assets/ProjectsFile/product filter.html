@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Filter & Search</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      button {
+        background: none;
+        border: none;
+      }
+
+      .style {
+        margin-top: 3rem;
+      }
+      .controls {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      h1 {
+        margin-bottom: 1rem;
+      }
+      .controls input,
+      .controls select,
+      .controls button {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .product-list {
+        display: grid;
+        gap: 15px;
+      }
+      .product-item {
+        border: 1px solid #eee;
+        padding: 15px;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .product-item:nth-child(even) {
+        background-color: #eee;
+      }
+      .no-results {
+        color: rgb(242, 199, 199);
+        font-weight: bold;
+      }
+
+      .productstyle {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .divin {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+
+      .sciping {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: reverse;
+      }
+      .byitem {
+        font-weight: 800;
+        padding: 1rem;
+        color: green;
+        /* display: flex; */
+        text-align: right;
+      }
+
+      select,
+      button {
+        cursor: pointer;
+      }
+
+      .removeitem {
+        font-weight: 800;
+        padding: 1rem;
+        color: red;
+        /* display: flex; */
+        text-align: left;
+      }
+
+      @media only screen and (min-width: 1024px) {
+        .style {
+          width: 60%;
+        }
+      }
+
+      @media only screen and (max-width: 1024px) {
+        .style {
+          width: 80%;
+        }
+      }
+
+      @media only screen and (max-width: 768px) {
+        .style {
+          width: 80%;
+        }
+      }
+      @media only screen and (max-width: 468px) {
+        .style {
+          width: 90%;
+        }
+        .product-list img {
+          width: 25px !important;
+          height: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="style">
+      <h1>Product Filter & Search App</h1>
+
+      <div class="controls" id="controls">
+        <input type="text" id="search" placeholder="Search products..." />
+        <select id="category">
+          <option value="all">All Categories</option>
+          <option value="electronics">Electronics</option>
+          <option value="clothing">Clothing</option>
+          <option value="accessories">Accessories</option>
+        </select>
+        <select id="sort">
+          <option value="default">Default</option>
+          <option value="low-to-high">Price: Low to High</option>
+          <option value="high-to-low">Price: High to Low</option>
+        </select>
+        <button id="resetBtn">Reset Filters</button>
+        <button id="by"></button>
+      </div>
+      <div id="bycart" class="bycart"></div>
+      <div id="products" class="product-list">
+        <!-- Products will be displayed here -->
+      </div>
+    </section>
+
+    <script>
+      const productsData = [
+        { id: 1, name: "Laptop", category: "electronics", price: 30000 },
+        { id: 2, name: "Headphones", category: "electronics", price: 2000 },
+        { id: 3, name: "T-Shirt", category: "clothing", price: 800 },
+        { id: 4, name: "Shoes", category: "clothing", price: 2500 },
+        { id: 5, name: "Watch", category: "accessories", price: 5000 },
+        { id: 6, name: "Backpack", category: "accessories", price: 1500 },
+      ];
+
+      const searchinput = document.getElementById("search");
+      const category = document.getElementById("category");
+      const sort = document.getElementById("sort");
+      const resetBtn = document.getElementById("resetBtn");
+      const productlist = document.getElementById("products");
+      const divproduct = document.getElementById("bycart");
+      const bybtn = document.getElementById("by");
+      const container = document.getElementById("controls");
+
+      let cart = [];
+
+      productlist.style.display = "initial";
+      divproduct.style.display = "none";
+      bybtn.textContent = "Shoping";
+
+      function renderCart() {
+        divproduct.innerHTML = "";
+
+        let totalPrice = 0;
+
+        cart.forEach((item) => {
+          const card = document.createElement("div");
+          card.classList.add("productstyle", "product-item");
+
+          const name = document.createElement("span");
+          name.textContent = item.name;
+
+          const removebtn = document.createElement("button");
+          removebtn.textContent = "X";
+          removebtn.classList.add("removeitem");
+          removebtn.style.padding = "0 0 0 20px";
+
+          removebtn.addEventListener("click", () => {
+            const index = cart.indexOf(item);
+            cart.splice(index, 1); // حذف از آرایه
+            renderCart(); // رندر مجدد
+          });
+
+          const price = document.createElement("span");
+          price.textContent = `${item.price} تومان `;
+
+          card.appendChild(name);
+          card.appendChild(price);
+          price.appendChild(removebtn);
+          divproduct.appendChild(card);
+
+          totalPrice += item.price;
+        });
+
+        const contbtnp = document.createElement("div");
+        const BYE = document.createElement("button");
+        BYE.textContent = "BY";
+        BYE.classList.add("byitem");
+        BYE.addEventListener("click", () => {
+          if (cart.length > 0) {
+            alert(`مجموع مبلغ: ${totalPrice} تومان`);
+            cart = [];
+            // renderCart();
+
+            divproduct.style.display = "none";
+            productlist.style.display = "initial";
+            bybtn.textContent = "Shoping";
+          }
+        });
+
+        const RemoveAll = document.createElement("button");
+        // RemoveAll.style.textAlign = "right";
+
+        RemoveAll.textContent = "RemoveAll";
+        RemoveAll.classList.add("removeitem");
+        RemoveAll.addEventListener("click", () => {
+          alert("سبد خرید خالی شد!");
+          cart = [];
+
+          divproduct.style.display = "none";
+          productlist.style.display = "initial";
+          bybtn.textContent = "Shoping";
+        });
+
+        // divproduct.appendChild(BYE);
+        // divproduct.appendChild(RemoveAll);
+
+        const totalDiv = document.createElement("div");
+        totalDiv.innerHTML = `<strong>قیمت کل سبد: ${totalPrice} تومان</strong>`;
+        totalDiv.style.marginTop = "20px";
+        totalDiv.style.textAlign = "right";
+        totalDiv.style.display = "inline-block";
+        contbtnp.appendChild(totalDiv);
+
+        const divin = document.createElement("span");
+        divin.classList.add("divin");
+        contbtnp.classList.add("sciping");
+        divin.appendChild(BYE);
+        divin.appendChild(RemoveAll);
+        contbtnp.appendChild(divin);
+        divproduct.appendChild(contbtnp);
+      }
+
+      function listitem(list) {
+        productlist.innerHTML = "";
+
+        list.forEach((data) => {
+          const divcart = document.createElement("div");
+          productlist.appendChild(divcart);
+          divcart.classList.add("productstyle", "product-item");
+
+          const span = document.createElement("span");
+          span.textContent = data.name;
+          divcart.appendChild(span);
+
+          const price = document.createElement("span");
+          price.textContent = `${data.price} تومان `;
+          divcart.appendChild(price);
+          price.style.display = "flex";
+          price.style.alignItems = "center";
+
+          const btnimg = document.createElement("button");
+          const spanimg = document.createElement("img");
+          spanimg.src = "/img/download.jpg";
+          spanimg.style.width = "35px";
+          btnimg.style.cursor = "pointer";
+
+          spanimg.style.marginLeft = "10px";
+          btnimg.appendChild(spanimg);
+          price.appendChild(btnimg);
+
+          btnimg.addEventListener("click", () => {
+            cart.push({
+              id: data.id,
+              name: data.name,
+              price: data.price,
+              category: data.category,
+            });
+            renderCart();
+          });
+        });
+      }
+      bybtn.addEventListener("click", () => {
+        if (productlist.style.display === "initial") {
+          productlist.style.display = "none";
+          divproduct.style.display = "initial";
+          bybtn.textContent = "List";
+        } else {
+          divproduct.style.display = "none";
+          productlist.style.display = "initial";
+          bybtn.textContent = "Shoping";
+        }
+        if (cart.length === 0) {
+          productlist.style.display = "initial";
+          divproduct.style.display = "none";
+          bybtn.textContent = "Not Found!";
+          bybtn.style.border = "1px solid red";
+          bybtn.style.background = "rgb(240, 197, 197)";
+        } else {
+          bybtn.style.border = "1px solid #ccc";
+          bybtn.style.background = "none";
+
+          // renderCart()
+        }
+      });
+
+      function updatelist() {
+        const inputvalue = searchinput.value.toLowerCase().trim();
+        const selectcategory = category.value;
+        const sortorder = sort.value;
+        let filterproduct = [...productsData];
+
+        if (inputvalue !== "") {
+          filterproduct = filterproduct.filter((product) =>
+            product.name.toLowerCase().includes(inputvalue),
+          );
+        }
+
+        if (selectcategory !== "all") {
+          filterproduct = filterproduct.filter(
+            (product) => product.category === selectcategory,
+          );
+        }
+
+        if (sortorder === "low-to-high") {
+          filterproduct.sort((a, b) => a.price - b.price);
+        } else if (sortorder === "high-to-low") {
+          filterproduct.sort((a, b) => b.price - a.price);
+        }
+
+        productlist.innerHTML = "";
+
+        if (filterproduct.length === 0) {
+          const error = document.createElement("span");
+          error.textContent = "Not Found !!!";
+          error.style.color = "red";
+          error.style.fontWeight = "800";
+          productlist.appendChild(error);
+        } else {
+          listitem(filterproduct);
+        }
+      }
+      updatelist();
+
+      resetBtn.addEventListener("click", () => {
+        searchinput.value = "";
+        category.value = "all";
+        sort.value = "default";
+        updatelist();
+      });
+
+      searchinput.addEventListener("input", updatelist);
+      category.addEventListener("change", updatelist);
+      sort.addEventListener("change", updatelist);
+    </script>
+  </body>
+</html>

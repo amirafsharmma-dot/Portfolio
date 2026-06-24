@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: sans-serif;
+      }
+
+      input,
+      button {
+        border: none;
+        background: none;
+      }
+      .container {
+        background-color: #228b22;
+        padding: 1rem;
+        border-radius: 4px;
+      }
+
+      .boxone {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .boxone h2 {
+        color: white;
+        display: inline-block;
+      }
+
+      #addbtntxt {
+        width: fit-content;
+        color: rgb(0, 0, 255);
+      }
+
+      #inputText {
+        display: flex;
+        padding: 0.4rem;
+        border-radius: 4px;
+        outline: none;
+        /* margin-top: 0.8rem; */
+        background-color: white;
+        width: 100%;
+        /* border: 1px solid #eee; */
+      }
+
+      .boxtwo {
+        position: relative;
+      }
+
+      #submitBtn {
+        background-color: rgb(0, 204, 255);
+        padding: 0.4rem;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        bottom: 1px;
+      }
+
+      #ustxt {
+        margin-top: 0.8rem;
+        /* background-color: #D2B48C; */
+      }
+
+      .divbox {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.4rem;
+        flex-direction: row-reverse;
+        overflow: hidden;
+        height: 28px;
+        margin: 0.4rem auto;
+        border: 1px solid #eee;
+        background-color: #f9f9f9;
+        /* color: #797878; */
+        font-family: 600;
+        border-radius: 3px;
+        width: 100%;
+      }
+
+      .divbox:nth-child(even) {
+        background-color: #eee;
+        /* color: #000; */
+      }
+
+      .morebtn {
+        color: blue;
+        cursor: pointer;
+      }
+
+      .divend {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+        padding: 0.4rem;
+        background-color: white;
+      }
+
+      @media only screen and (min-width: 1024px) {
+        .container {
+          width: 50%;
+        }
+      }
+
+      @media only screen and (max-width: 1024px) {
+        .container {
+          width: 70%;
+        }
+      }
+
+      @media only screen and (max-width: 768px) {
+        .container {
+          width: 80%;
+        }
+      }
+      @media only screen and (max-width: 468px) {
+        .container {
+          width: 90%;
+        }
+      }
+
+      .head {
+        display: flex;
+        justify-content: space-between;
+      }
+      .items {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+      }
+
+      .intbox {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .gridBox {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+        flex-grow: 1;
+      }
+
+      .flexBox {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .errorh {
+        border: 1px solid red;
+        background-color: rgb(255, 215, 215) !important;
+      }
+      .backi {
+        display: flex;
+        justify-content: end;
+        margin-bottom: 0.4rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container">
+      <div class="boxone" id="boxone">
+        <div class="head">
+          <h2>Welcome NoteApps</h2>
+          <span id="valueNOTE"></span>
+        </div>
+        <div class="items">
+          <input type="button" id="addbtntxt" value="Add Your Notes" />
+          <div class="intbox" id="intbox"></div>
+        </div>
+
+        <div id="ustxt"></div>
+      </div>
+      <div class="boxtwo" id="boxtwo">
+        <input type="text" id="inputText" placeholder="AddYour Text" />
+        <input type="submit" id="submitBtn" />
+      </div>
+      <div id="boxthree"></div>
+    </section>
+    <script>
+      const BoxOne = document.getElementById("boxone");
+      const BoxTwo = document.getElementById("boxtwo");
+      const ustxt = document.getElementById("ustxt");
+      const AddBtnText = document.getElementById("addbtntxt");
+      const SubmitBtn = document.getElementById("submitBtn");
+      const inputText = document.getElementById("inputText");
+      const BoxThree = document.getElementById("boxthree");
+      const inputbox = document.getElementById("intbox");
+      const NoteValue = document.getElementById("valueNOTE");
+
+      BoxTwo.style.display = "none";
+      BoxThree.style.display = "none";
+
+      function usertxt() {
+        AddBtnText.addEventListener("click", () => {
+          BoxOne.style.display = "none";
+          BoxTwo.style.display = "block";
+        });
+
+        SubmitBtn.addEventListener("click", () => {
+          let inputValue = inputText.value.trim();
+          if (inputValue !== "") {
+
+            inputText.classList.remove("errorh");
+
+            const div = document.createElement("div");
+            div.classList.add("divbox");
+
+            const span = document.createElement("span");
+            span.textContent = inputValue;
+
+            const morebtn = document.createElement("button");
+            morebtn.textContent = "More...";
+            morebtn.classList.add("morebtn");
+
+            morebtn.addEventListener("click", () => {
+              const back = document.createElement("span");
+              back.textContent = "back";
+              back.classList.add("backi");
+              back.addEventListener("click", () => {
+                BoxOne.style.display = "block";
+                BoxThree.style.display = "none";
+                BoxThree.innerHTML = "";
+                box()
+                updatenotevalue()
+              });
+
+              const divbt = document.createElement("div");
+              divbt.classList.add("divend");
+
+              const removebtn = document.createElement("button");
+              removebtn.textContent = "x";
+              const more = document.createElement("span");
+              more.textContent = span.textContent;
+
+              divbt.appendChild(removebtn);
+              divbt.appendChild(more);
+              BoxThree.appendChild(back);
+              BoxThree.appendChild(divbt);
+
+              BoxOne.style.display = "none";
+              BoxThree.style.display = "block";
+
+              removebtn.addEventListener("click", () => {
+                BoxOne.style.display = "block";
+                BoxThree.style.display = "none";
+                ustxt.removeChild(div);
+
+                BoxThree.innerHTML = "";
+                box()
+                updatenotevalue()
+              });
+            });
+
+            div.appendChild(morebtn);
+            div.appendChild(span);
+            ustxt.appendChild(div);
+
+            box();
+            updatenotevalue()
+
+            // ustxt.style.padding = ".6rem";
+
+            BoxOne.style.display = "block";
+            BoxTwo.style.display = "none";
+            inputText.classList.remove("errorh");
+
+            inputText.value = "";
+            BoxThree.innerHTML = "";
+          } else {
+            inputText.classList.add("errorh");
+          }
+        });
+      }
+      usertxt();
+
+      function box() {
+        if (ustxt.textContent.trim() !== "") {
+          inputbox.innerHTML = "";
+
+          const intOne = document.createElement("button");
+          const intTwo = document.createElement("button");
+
+          intOne.textContent = "Flex";
+          intTwo.textContent = "Grid";
+
+          intOne.addEventListener("click", () => {
+            ustxt.classList.add("flexBox");
+            ustxt.classList.remove("gridBox");
+          });
+
+          intTwo.addEventListener("click", () => {
+            ustxt.classList.add("gridBox");
+            ustxt.classList.remove("flexBox");
+          });
+
+          inputbox.appendChild(intOne);
+          inputbox.appendChild(intTwo);
+
+          intOne.style.color = "#fff";
+          intTwo.style.color = "#fff";
+        } else {
+          inputbox.innerHTML = "";
+        }
+      }
+
+      function updatenotevalue() {
+        const notes = ustxt.querySelectorAll("div")
+        const value = notes.length
+
+        NoteValue.textContent = `تعداد نوت:${value}`
+
+        if(value === 0) {
+          NoteValue.textContent = "not note"
+        }
+      } 
+      
+
+      inputText.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          SubmitBtn.click();
+        }
+      });
+    </script>
+  </body>
+</html>

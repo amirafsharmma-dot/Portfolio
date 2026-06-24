@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects</title>
+    <style>
+      :root {
+        --bg: #070b1a;
+        --bg-soft: #0d1327;
+        --card: rgba(255, 255, 255, 0.075);
+        --card-strong: rgba(255, 255, 255, 0.11);
+        --text: #f8fafc;
+        --muted: #a8b3cf;
+        --primary: #7c3aed;
+        --primary-2: #06b6d4;
+
+        --border: rgba(255, 255, 255, 0.12);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+        --radius: 24px;
+      }
+
+      @font-face {
+        font-family: "Vazir";
+        src: url(./assets/fonts/ttf/Vazirmatn-Medium.ttf);
+      }
+
+      body {
+        background-color: var(--bg);
+
+        background-image:
+          linear-gradient(90deg, var(--border) 1px, transparent 1px),
+          linear-gradient(var(--border) 1px, transparent 1px),
+          radial-gradient(
+            at 0% 0%,
+            rgba(124, 58, 237, 0.15) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(6, 182, 212, 0.15) 0px,
+            transparent 50%
+          );
+
+          background-size:
+          40px 100%,
+          100% 40px,
+          100% 100%,
+          100% 100%
+          ;
+
+          background-attachment: fixed;
+          background-position: center center;
+          margin: 0;
+      }
+
+      .projects-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+        gap: 25px; 
+        margin: 0 auto; 
+        z-index: 2; 
+      }
+
+      
+      .project-card {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        padding: 30px 20px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-align: center;
+      }
+
+      .icon {
+        font-size: 45px;
+        margin-bottom: 15px;
+      }
+
+      .card-content h3 {
+        margin: 0;
+        font-size: 1.4rem;
+        color: #fff;
+      }
+
+      .card-content p {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+        margin: 15px 0;
+      }
+
+      .btn-text {
+        font-weight: bold;
+        color: #38bdf8;
+        font-size: 0.9rem;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+      }
+
+      .project-card:active {
+        transform: scale(0.96);
+      }
+
+      .container--WebProjects,
+      .container--JsProjects {
+        width: 90%;
+        margin: 0 auto 2rem;
+      }
+
+      .container--WebProjects h1,
+      .container--JsProjects h1 {
+        color: var(--primary-2);
+      }
+
+      /* ------------------ */
+
+      .mouse-glow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          100px circle at var(--x, 50%) var(--y, 50%),
+          rgba(6, 182, 212, 0.2),
+          rgba(124, 58, 237, 0.3),
+          transparent 100%
+        );
+        pointer-events: none;
+        z-index: 0;
+        transition: background 0.1s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container--WebProjects">
+      <h1>پروژه های وب</h1>
+
+      <div class="projects-container">
+        
+        <a
+          href="https://amirafsharmma-dot.github.io/learning_Site/"
+          target="_blank"
+          class="project-card">
+          <div class="card-content">
+            <div class="icon">💻</div>
+            <h3>پلتفرم آموزش آنلاین</h3>
+            <p>
+              طراحی و توسعه رابط کاربری سایت آموزش مجازی با استفاده از مهارت‌های
+              فرانت‌اند
+            </p>
+            <span class="btn-text">مشاهده ←</span>
+          </div>
+        </a>
+
+        
+        <a
+          href="https://amirafsharmma-dot.github.io/snapp-landing-page"
+          target="_blank"
+          class="project-card">
+          <div class="card-content">
+            <div class="icon">🚀</div>
+            <h3>صفحه لندینگ اسنپ</h3>
+
+            <p>
+              پروژه تمرینی برای پیاده‌سازی ساختار و استایل‌دهی با HTML & CSS
+            </p>
+            <span class="btn-text">مشاهده ←</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="container--JsProjects">
+      <h1 class="section-title">پروژه‌های جاوااسکریپت</h1>
+
+      <div class="projects-container">
+        <!-- کارت اول: فیلتر محصولات (E-commerce/Logic) -->
+        <a
+          href="./assets/ProjectsFile/product filter.html"
+          target="_blank"
+          class="project-card">
+          <div class="card-content">
+            <div class="icon">🔍</div>
+            <h3 class="project-title">فیلتر هوشمند محصولات</h3>
+            <p class="project-description">
+              پیاده‌سازی منطق جستجو و فیلترینگ محصولات بر اساس ویژگی‌های مختلف.
+            </p>
+            <span class="btn-text">مشاهده پروژه ←</span>
+          </div>
+        </a>
+
+        <!-- کارت دوم: بازی پیدا کردن جفت‌ها (Memory Game) -->
+        <a
+          href="./assets/ProjectsFile/GameCart.html"
+          target="_blank"
+          class="project-card">
+          <div class="card-content">
+            <div class="icon">🧩</div>
+            <h3 class="project-title">بازی پیدا کردن جفت‌ها</h3>
+            <p class="project-description">
+              یک بازی هیجان‌انگیز برای پیدا کردن تصاویر مشابه و تقویت حافظه.
+            </p>
+            <span class="btn-text">مشاهده پروژه ←</span>
+          </div>
+        </a>
+
+        <!-- کارت سوم: بازی حدس عدد (Number Guessing Game) -->
+        <a
+          href="./assets/ProjectsFile/HowNumber.html"
+          target="_blank"
+          class="project-card">
+          <div class="card-content">
+            <div class="icon">🎲</div>
+            <h3 class="project-title">بازی حدس عدد</h3>
+            <p class="project-description">
+              چالش حدس زدن عدد مخفی؛ آیا می‌توانی در کمترین تلاش برنده شوی؟
+            </p>
+            <span class="btn-text">مشاهده پروژه ←</span>
+          </div>
+        </a>
+
+        <!-- کارت چهارم: اپلیکیشن یادداشت (NoteApp) -->
+        <a
+          href="./assets/ProjectsFile/NoteApp.html"
+          target="_blank"
+          class="project-card">
+          <div class="card-content">
+            <div class="icon">📝</div>
+            <h3 class="project-title">یادداشت‌بردار هوشمند</h3>
+            <p class="project-description">
+              مدیریت یادداشت‌ها و وظایف روزانه با قابلیت ذخیره‌سازی و ویرایش.
+            </p>
+            <span class="btn-text">مشاهده پروژه ←</span>
+          </div>
+        </a>
+
+        <!-- کارت پنجم: ماشین حساب (Calculator) -->
+        <a
+          href="./assets/ProjectsFile/calcul.html"
+          target="_blank"
+          class="project-card">
+          <div class="card-content">
+            <div class="icon">🔢</div>
+            <h3 class="project-title">ماشین حساب مدرن</h3>
+            <p class="project-description">
+              انجام محاسبات ریاضی با رابط کاربری تمیز و کاربرپسند.
+            </p>
+            <span class="btn-text">مشاهده پروژه ←</span>
+          </div>
+        </a>
+
+        <!-- کارت ششم: لیست کارها (To-Do List) -->
+        <a
+          href="./assets/ProjectsFile/TDlist2.html"
+          target="_blank"
+          class="project-card">
+          <div class="card-content">
+            <div class="icon">✅</div>
+            <h3 class="project-title">مدیریت لیست کارها</h3>
+            <p class="project-description">
+              سازماندهی کارهای روزانه و پیگیری پیشرفت پروژه‌ها.
+            </p>
+            <span class="btn-text">مشاهده پروژه ←</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <div class="mouse-glow"></div>
+
+    <script>
+      const glow = document.querySelector(".mouse-glow");
+
+      window.addEventListener("mousemove", (e) => {
+        // گرفتن موقعیت موس
+        const x = e.clientX;
+        const y = e.clientY;
+
+        // فرستادن موقعیت موس به CSS از طریق Variableها
+        glow.style.setProperty("--x", x + "px");
+        glow.style.setProperty("--y", y + "px");
+      });
+    </script>
+  </body>
+</html>

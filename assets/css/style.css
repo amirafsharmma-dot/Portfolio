@@ -1,0 +1,357 @@
+@import url(../fonts/fonts.css);
+
+:root {
+    /* رنگ‌های اصلی تم */
+    --bg-color: #0B0E14;
+    /* پس‌زمینه اصلی */
+    --card-bg: #151921;
+    /* پس‌زمینه کارت‌ها/بخش‌ها */
+
+    /* رنگ بنفش جدید */
+    --accent-color: #00D4FF;
+    /* رنگ بنفش درخشان (جایگزین آبی قبلی) */
+
+    /* رنگ‌های متن */
+    --text-main: #E1E6ED;
+    /* متن اصلی */
+    --text-muted: #94A3B8;
+    /* متن‌های فرعی */
+
+    /* سایه‌ها و بوردرها */
+    --card-border: rgba(0, 212, 255, 0.1);
+    --shadow-glow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-glow2: 3px 3px 10px rgba(0, 179, 188, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body {
+    background-color: var(--bg-color);
+    width: 94%;
+    margin: 0 auto 2rem;
+    color: var(--text-main);
+    font-family: "Vazir";
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-main);
+}
+
+li {
+    list-style-type: none;
+}
+
+.animation {
+    animation: sectionHighlight 1s ease;
+}
+
+@keyframes sectionHighlight {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+        /* transform: scale(1); */
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translateY(-20px);
+        /* transform: scale(1.02); */
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        /* transform: scale(1); */
+    }
+}
+
+.nav-container {
+    background: linear-gradient(90deg, var(--accent-color), var(--card-bg) 50%);
+    box-shadow: var(--shadow-glow2);
+    padding: .1rem 0;
+    margin: 3.5rem 0 2rem;
+    border-radius: 2px;
+    position: relative;
+}
+
+
+#nav-menu {
+    display: flex;
+    gap: 3rem;
+
+    position: absolute;
+    bottom: .5rem;
+    right: 25%;
+    transform: translateX(50%);
+}
+
+.nav-container li {
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.nav-underline {
+    width: 0;
+    height: 3px;
+    border-radius: 6px;
+    background-color: var(--accent-color);
+    transition: all .6s ease;
+    margin-top: 5px;
+}
+
+.nav-item.active {
+    color: var(--accent-color);
+    transition: all .6s ease;
+
+}
+
+.nav-item.active .nav-underline {
+    width: 100%;
+}
+
+header {
+    display: flex;
+    gap: 2rem;
+}
+
+.about-section {
+    padding: 1rem;
+    border: 1px solid var(--card-border);
+    background-color: var(--card-bg);
+    border-radius: .6rem;
+}
+
+.about-section p {
+    margin-top: 0.6rem;
+    color: var(--text-main);
+}
+
+.hero-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-text p:nth-child(3) {
+    line-height: 1.7;
+}
+
+.hero-text p:nth-child(2) {
+    margin: 1rem 0;
+}
+
+.hero-buttons {
+    margin: 1rem 0 0;
+}
+
+.hero-buttons button {
+    background: none;
+    padding: .6rem 1rem;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-right: 3px solid var(--accent-color);
+    border-bottom: 3px solid var(--accent-color);
+
+    border-bottom-right-radius: 6px;
+    border-top-left-radius: 6px;
+    cursor: pointer;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1rem 0;
+}
+
+.skills-section h2,
+.tools-section h2,
+.projects-section h2 {
+    margin: 2rem 0;
+}
+
+.skill-card,
+.tool-card,
+.project-card {
+    background-color: var(--card-bg);
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.project-card {
+    width: 50%;
+}
+
+.progress-container {
+    background-color: var(--text-muted);
+    border-radius: 8px;
+    margin: .6rem 0;
+    height: 12px;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    transition: width .8s ease-in-out .3s;
+    background-color: var(--accent-color);
+    border-radius: 8px;
+}
+
+.projects-section .project-card h3 {
+    margin: 0 0 .8rem;
+}
+
+.project-card a {
+    text-decoration: underline;
+    color: var(--accent-color);
+}
+
+.cards-container {
+    display: flex;
+    gap: 1rem;
+}
+
+/* footer {
+    margin: 0 1rem 2rem 0;
+} */
+
+footer h2 {
+    margin: 2rem 0;
+}
+
+.footer-items {
+    /* display: flex;
+    justify-content: space-between; */
+    /* gap: 3rem; */
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.footer-items li {
+    border: 2px solid var(--card-border);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /* padding: .6rem .8rem; */
+}
+
+.items-card {
+    background-color: var(--card-bg);
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    direction: ltr;
+}
+
+.items-card a {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.items-card h3 {
+    padding-bottom: .4rem;
+    margin-bottom: .6rem;
+    border-bottom: 1px solid var(--text-muted);
+}
+
+@media only screen and (max-width: 480px) {
+
+    body {
+        margin-bottom: 5rem;
+    }
+
+    #header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cards-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #contact {
+        margin-bottom: 6rem;
+    }
+
+    .footer-items {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #nav-menu {
+        display: flex;
+        gap: 1.4rem;
+        position: fixed;
+        border: 1px solid var(--accent-color);
+
+        bottom: 2%;
+        right: 50%;
+        justify-content: center;
+        /* transform: translateX(50%); */
+        width: 90% !important;
+
+        padding: 10px 0 3px;
+        border-radius: 50px;
+        z-index: 6;
+
+        background: rgba(10, 10, 20, .2);
+        backdrop-filter: blur(1rem);
+
+        box-shadow: var(--shadow-glow2);
+    }
+
+    #nav-menu li {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+
+
+}
+
+@media only screen and (max-width: 768px) {
+    body {
+        margin-bottom: 2rem;
+    }
+
+    #nav-menu {
+        display: flex;
+        justify-content: center;
+        /* position: relative; */
+        right: 50%;
+
+        width: 100%;
+    }
+
+    #header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cards-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer-items {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .project-card {
+        width: 100%;
+    }
+}

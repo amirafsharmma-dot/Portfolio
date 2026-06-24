@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fa" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(105deg, whitesmoke, rgb(144, 190, 209));
+        font-family: sans-serif;
+      }
+
+      section {
+        min-width: 30%;
+      }
+      .container {
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 0.2rem;
+        max-width: 100%;
+      }
+      .container h1 {
+        margin-bottom: 0.6rem;
+      }
+
+      #AUT {
+        padding: 0.6rem 4.5rem 0.6rem 1rem;
+        border-radius: 1rem;
+        outline: none;
+        border: none;
+        background-color: rgb(240, 238, 238);
+        width: 100%;
+        direction: auto;
+        font-family: "IRANSans", sans-serif;
+        unicode-bidi: plaintext;
+        font-size: 16px;
+        line-height: 1.4;
+        color: #111;
+      }
+
+      #AUT::placeholder {
+        font-weight: 500;
+        font-family: sans-serif;
+      }
+
+      .addtxt {
+        position: relative;
+        margin-bottom: 0.2rem;
+      }
+      .submit {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        border: none;
+        border-radius: 1rem;
+        padding: 0 1.2rem;
+        background-color: lightskyblue;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .tododiv {
+        display: flex;
+        align-items: center;
+        /* justify-items: center; */
+        width: 98%;
+        margin: 0.2rem auto 0.8rem;
+        padding-bottom: 0.3rem;
+        border-bottom: 1px solid lightgray;
+      }
+
+      .todospan {
+        font-weight: bold;
+        flex-grow: 1;
+      }
+
+      .deletebtn {
+        font-size: 1.2rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+
+      .EndTask {
+        text-decoration-line: line-through;
+        color: lightgray;
+      }
+
+      .input-error {
+        border: 2px solid rgb(220, 94, 94) !important;
+        background: #ffeaea;
+      }
+
+      #errortxt {
+        margin-left: 0.6rem;
+        font-size: 0.8rem;
+        color: rgb(250, 94, 94);
+      }
+
+      input[type="checkbox"] {
+        font-size: 2rem;
+        /* border-radius: 50px; */
+        margin-right: 0.6rem;
+        cursor: pointer;
+      }
+
+      @media only screen and (min-width: 1024px) {
+        section {
+          width: 60%;
+        }
+      }
+
+      @media only screen and (max-width: 1024px) {
+        section {
+          width: 80%;
+        }
+      }
+
+      @media only screen and (max-width: 768px) {
+        section {
+          width: 80%;
+        }
+      }
+      @media only screen and (max-width: 468px) {
+        section {
+          width: 80%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <h1>To Do List</h1>
+        <div class="addtxt">
+          <input type="text" id="AUT" placeholder="Add Your Task!" />
+          <input type="button" id="submit" class="submit" value="Add" />
+        </div>
+        <span id="errortxt"></span>
+        <div id="Usertxt"></div>
+      </div>
+    </section>
+
+    <script>
+      const UserTxtValue = document.getElementById("AUT");
+      const SubmitBtn = document.getElementById("submit");
+      const errortext = document.getElementById("errortxt");
+      const UserTxtAdd = document.getElementById("Usertxt");
+
+      SubmitBtn.addEventListener("click", User);
+
+      UserTxtValue.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          // e.preventDefault();
+          User();
+        }
+      });
+
+      function User() {
+        const value = UserTxtValue.value.trim();
+
+        if (value !== "") {
+          const tododiv = document.createElement("div");
+          tododiv.classList.add("tododiv");
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.addEventListener("click", () => {
+            todospan.classList.toggle("EndTask");
+          });
+
+          const todospan = document.createElement("span");
+          todospan.classList.add("todospan");
+          todospan.textContent = value;
+
+          const deletebtn = document.createElement("button");
+          deletebtn.classList.add("deletebtn");
+          deletebtn.textContent = "×";
+          deletebtn.onclick = function () {
+            UserTxtAdd.removeChild(tododiv);
+          };
+
+          tododiv.appendChild(checkbox);
+          tododiv.appendChild(todospan);
+          tododiv.appendChild(deletebtn);
+          UserTxtAdd.appendChild(tododiv);
+
+          UserTxtValue.value = "";
+          UserTxtValue.focus();
+        } else {
+          errortext.textContent = "Please Add Your Task!";
+          UserTxtValue.classList.add("input-error");
+
+          UserTxtValue.addEventListener("click", () => {
+            errortext.textContent = "";
+            UserTxtValue.classList.remove("input-error");
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
