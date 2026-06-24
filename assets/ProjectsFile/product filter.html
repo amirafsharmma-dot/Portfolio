@@ -284,13 +284,11 @@
           price.style.alignItems = "center";
 
           const btnimg = document.createElement("button");
-btnimg.textContent = "🛒";
-btnimg.style.fontSize = "22px";
-btnimg.style.cursor = "pointer";
-price.appendChild(btnimg);
+          btnimg.textContent = "🛒";
+          btnimg.style.fontSize = "22px";
+          btnimg.style.cursor = "pointer";
+          price.appendChild(btnimg);
 
-          spanimg.style.marginLeft = "10px";
-          btnimg.appendChild(spanimg);
           price.appendChild(btnimg);
 
           btnimg.addEventListener("click", () => {
