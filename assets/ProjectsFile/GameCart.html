@@ -3,45 +3,166 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Memory Game</title>
     <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
       body {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+        font-family: sans-serif;
       }
+
+      .game-wrap {
+        padding: 1.5rem;
+        max-width: 520px;
+        width: 100%;
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+      }
+
+      .game-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.2rem;
+      }
+
+      .game-stats {
+        display: flex;
+        gap: 1.5rem;
+      }
+      .stat {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        color: #999;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .stat-val {
+        font-size: 18px;
+        font-weight: 500;
+        color: #111;
+      }
+
+      #resetBtn {
+        font-size: 13px;
+        padding: 6px 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: #fff;
+        cursor: pointer;
+      }
+      #resetBtn:hover {
+        background: #f0f0f0;
+      }
+
       #container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 0.4rem;
-        background-color: #eee;
-        padding: 0.5rem;
-        border-radius: 0.4rem;
-        box-shadow:
-          1px,
-          1px,
-          10px #000;
-        /* width: fit-content; */
-        height: 100px;
+        gap: 10px;
       }
 
-      button {
-        background-color: black;
+      #container button {
+        aspect-ratio: 1;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background: #fafafa;
+        color: transparent; /* مخفی */
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          transform 0.1s,
+          color 0.15s;
       }
 
-      .edi {
-        background: none;
+      #container button:hover:not(:disabled) {
+        background: #fff;
+        border-color: #3b82f6;
+        transform: scale(1.04);
+      }
+
+      #container button.edi {
+        background: #eff6ff;
+        border-color: #3b82f6;
+        color: #1d4ed8; /* نمایان */
+      }
+
+      #container button.matched {
+        background: #f0fdf4;
+        border-color: #4ade80;
+        color: #15803d; /* نمایان */
+        cursor: default;
+      }
+
+      #container button.wrong {
+        background: #fef2f2;
+        border-color: #f87171;
+        color: #b91c1c; /* نمایان */
+      }
+
+      #container button:disabled {
+        opacity: 1;
+        cursor: default;
+      }
+
+      .game-msg {
+        margin-top: 1rem;
+        min-height: 24px;
+        font-size: 13px;
+        color: #666;
+        text-align: center;
+      }
+      .win-msg {
+        color: #15803d;
+        font-weight: 500;
       }
     </style>
   </head>
   <body>
-    <div id="container"></div>
+    <div class="game-wrap">
+      <div class="game-header">
+        <div class="game-stats">
+          <div class="stat">
+            <span class="stat-label">تلاش</span>
+            <span class="stat-val" id="attempts">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">جفت پیدا شده</span>
+            <span class="stat-val" id="matched">0 / 4</span>
+          </div>
+        </div>
+        <button id="resetBtn">شروع دوباره</button>
+      </div>
+
+      <div id="container"></div>
+      <div class="game-msg" id="msg"></div>
+    </div>
 
     <script>
       const container = document.getElementById("container");
+      const attemptsEl = document.getElementById("attempts");
+      const matchedEl = document.getElementById("matched");
+      const msgEl = document.getElementById("msg");
 
-      let element = [
+      const element = [
         { id: 1, name: "Laptop" },
         { id: 2, name: "Shoes" },
         { id: 3, name: "Watch" },
@@ -54,75 +175,80 @@
 
       let firstNumber = null;
       let secendNumber = null;
-      // let firstId = null;
-      // let secendId = null;
+      let isLoked = false;
+      let attempts = 0;
+      let matchedCount = 0;
 
-      element.forEach((elem) => {
-        const buttons = document.createElement("button");
-        buttons.textContent = elem.name;
-        // buttons.id = elem.id;
-        container.appendChild(buttons);
-      });
-      
-      let isLoked = false
+      function shuffle(arr) {
+        return [...arr].sort(() => Math.random() - 0.5);
+      }
+
+      function init() {
+        container.innerHTML = "";
+        firstNumber = secendNumber = null;
+        isLoked = false;
+        attempts = matchedCount = 0;
+        attemptsEl.textContent = 0;
+        matchedEl.textContent = "0 / 4";
+        msgEl.textContent = "";
+        msgEl.className = "game-msg";
+
+
+        shuffle(element).forEach((elem) => {
+          const btn = document.createElement("button");
+          btn.textContent = elem.name;
+          container.appendChild(btn);
+        });
+      }
+
       function cartBox() {
         container.addEventListener("click", function (e) {
-          if (e.target.tagName === "BUTTON" && !isLoked) {
-            const clickbtn = e.target;
-            // const idBtn = e.target.id;
-            // console.log(idBtn);
-            clickbtn.classList.add("edi");
+          if (e.target.tagName !== "BUTTON" || isLoked) return;
+          const clickbtn = e.target;
+          if (clickbtn.disabled) return;
 
-            if (!firstNumber) {
-              firstNumber = clickbtn;
-              // firstId = idBtn;
-              firstNumber.disabled = true;
-              console.log(firstNumber);
+          clickbtn.classList.add("edi");
+          clickbtn.disabled = true;
+
+          if (!firstNumber) {
+            firstNumber = clickbtn;
+          } else {
+            secendNumber = clickbtn;
+            isLoked = true;
+            attempts++;
+            attemptsEl.textContent = attempts;
+
+            if (firstNumber.textContent === secendNumber.textContent) {
+              firstNumber.classList.replace("edi", "matched");
+              secendNumber.classList.replace("edi", "matched");
+              matchedCount++;
+              matchedEl.textContent = matchedCount + " / 4";
+              firstNumber = secendNumber = null;
+              isLoked = false;
+
+              if (matchedCount === 4) {
+                msgEl.textContent =
+                  "آفرین! همه جفت‌ها پیدا شدن در " + attempts + " تلاش.";
+                msgEl.className = "game-msg win-msg";
+              }
             } else {
-              secendNumber = clickbtn;
-              // secendId = idBtn;
-              secendNumber.disabled = true;
-              isLoked = true
-              console.log(secendNumber);
-            }
-            if (
-              firstNumber &&
-              secendNumber &&
-              firstNumber.textContent === secendNumber.textContent
-              // firstId !== secendId
-            ) {
-              console.log("correct");
-              firstNumber.disabled = true;
-              secendNumber.disabled = true;
-              firstNumber = null;
-              secendNumber = null;
-              // firstId = null;
-              // secendId = null;
-            } else if (
-              firstNumber &&
-              secendNumber
-              // firstNumber !== secendNumber
-            ) {
+              firstNumber.classList.add("wrong");
+              secendNumber.classList.add("wrong");
               setTimeout(() => {
-                // firstNumber.classList.remove("edi");
-                // secendNumber.classList.remove("edi");
                 [firstNumber, secendNumber].forEach((b) => {
-                  b.classList.remove("edi");
+                  b.classList.remove("edi", "wrong");
+                  b.disabled = false;
                 });
-                console.log("incorrect");
-                firstNumber.disabled = false;
-                secendNumber.disabled = false;
-                // ریست کردن برای زوج بعدی
-                firstNumber = null;
-                secendNumber = null;
-                isLoked = false
-                // firstId = null;
-                // secendId = null;
-              }, 1000);
+                firstNumber = secendNumber = null;
+                isLoked = false;
+              }, 800);
             }
           }
         });
       }
+
+      document.getElementById("resetBtn").addEventListener("click", init);
+      init();
       cartBox();
     </script>
   </body>
