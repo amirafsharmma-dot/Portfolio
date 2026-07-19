@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* استفاده از min-height برای موبایل بهتر است */
+        background-color: #151921;
+        flex-direction: column;
+        gap: 2rem; /* فاصله بین باکس اصلی و دکمه‌ها */
+        color: #00d4ff;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .quizGame,
+      .container,
+      .Guidance,
+      .container--history {
+        background: #0b0e14;
+        border: 1px solid #00d4ff;
+        width: 90%; /* برای نمایش بهتر در موبایل */
+        max-width: 600px; /* محدود کردن عرض در مانیتور بزرگ */
+        padding: 2rem;
+        border-radius: 8px; /* کمی گردتر برای زیبایی */
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.2); /* سایه ملایم */
+
+        display: flex;
+        flex-direction: column;
+        gap: 2rem; /* فاصله بین ردیف امتیازها و ردیف بازی */
+
+        animation: fadeIn1 1s ease forwards;
+        z-index: 1;
+
+        margin-top: 0.1rem;
+      }
+
+      .quizGame h1 {
+        margin: 0 auto;
+      }
+
+      .quizGame input {
+        background-color: black;
+        color: #00d4ff;
+        width: 60%;
+        margin: 0 auto;
+        font-size: 1rem;
+        padding: 0.3rem;
+        border-radius: 8px;
+        outline: none;
+        border: 2px solid #00d4ff;
+      }
+
+      .eventclass {
+        display: none;
+      }
+
+      /* بخش امتیازها */
+      .pointer {
+        display: flex;
+        justify-content: space-around; /* پخش کردن امتیازها با فاصله مساوی */
+        align-items: center;
+        font-size: 0.9rem;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        padding-bottom: 1rem;
+      }
+
+      /* بخش نمایش انتخاب‌ها و نتیجه */
+      .cont--resulting {
+        display: flex;
+        justify-content: space-between; /* قرار دادن کاربر، نتیجه و کامپیوتر در یک خط */
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+      }
+
+      #user,
+      #result,
+      #computer {
+        flex: 1; /* هر سه بخش فضای مساوی می‌گیرند */
+        font-weight: bold;
+        font-size: 1.1rem;
+        min-height: 1.5em;
+        /* جلوگیری از پرش صفحه هنگام خالی بودن */
+      }
+
+      /* بخش دکمه‌ها */
+      #containerBtn {
+        background: #0b0e14;
+        border: 1px solid #00d4ff;
+        padding: 1rem;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 600px;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem; /* فاصله بین دکمه‌ها */
+
+        animation: fadeIn1 1s ease 0.1s forwards;
+        margin: 0 auto;
+      }
+
+      button {
+        background-color: #000;
+        border: 1px solid #00d4ff;
+        color: #00d4ff;
+        padding: 0.5rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background: #00d4ff;
+        color: #0b0e14;
+        box-shadow: 0 0 10px #00d4ff;
+      }
+
+      button:active {
+        transform: scale(0.95);
+      }
+
+      .btnsStart {
+        width: 30%;
+        margin: 0 auto;
+      }
+
+      .screenBtn {
+        display: flex;
+        /* justify-content: center !important; */
+        gap: 0.5rem;
+      }
+
+      .saveHistory {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .backedBtnGuidance {
+        display: flex;
+        align-items: center;
+      }
+
+      .backedBtnGuidance p {
+        align-items: center;
+      }
+
+      #backGuidance {
+        background: none;
+        border: none;
+      }
+
+      #backGuidance:hover {
+        color: #00d4ff;
+        box-shadow: none;
+        text-shadow: 1px 1px 10px aqua;
+      }
+
+      @keyframes fadeIn1 {
+        from {
+          opacity: 0;
+          transform: translateY(80px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media only screen and (max-width: 500px) {
+        #intQuiz {
+          width: 90%;
+          padding: 0.5rem 0.3rem;
+        }
+
+        #containerBtn {
+          width: 100%;
+          margin: 0;
+        }
+
+        .backedBtnGuidance {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="quizGame" class="quizGame">
+      <h1>امتیاز بازی رو مشخص کن</h1>
+      <input type="text" id="intQuiz" />
+      <div class="screenBtn">
+        <button type="button" class="btnsStart" id="btnStart">شروع</button>
+        <button type="button" class="btnsStart" id="btnHistory">تاریخچه</button>
+        <button type="button" class="btnsStart" id="btnGuidance">
+          راهنمایی
+        </button>
+      </div>
+    </div>
+    <div class="container" id="container">
+      <div class="pointer">
+        <span class="point1"></span>
+        <span class="point2"></span>
+        <span class="point3"></span>
+      </div>
+      <div class="cont--resulting">
+        <div id="user"></div>
+        <div id="result"></div>
+        <div id="computer"></div>
+      </div>
+      <div id="containerBtn"></div>
+    </div>
+
+    <div class="container--history" id="container--history">
+      <div id="saveHistory" class="saveHistory"></div>
+      <button type="button" id="backHistory" class="backHistory">برگشت</button>
+    </div>
+    <div class="Guidance" id="Guidance">
+      <h2>🎮 به بازی سنگ، کاغذ، قیچی خوش آمدید!</h2>
+
+      <h3>نحوه شروع بازی</h3>
+      <p>
+        ابتدا <b>امتیاز هدف</b> را وارد کنید. این عدد مشخص می‌کند که هر بازیکنی
+        زودتر به آن امتیاز برسد، برنده نهایی بازی خواهد بود.<br />
+        پس از وارد کردن امتیاز، روی دکمه <b>شروع بازی</b> کلیک کنید.
+      </p>
+
+      <h3>قوانین بازی</h3>
+      <ul>
+        <li>
+          در هر دور یکی از گزینه‌های <b>سنگ</b>، <b>کاغذ</b> یا <b>قیچی</b> را
+          انتخاب کنید.
+        </li>
+        <li>
+          کامپیوتر نیز به‌صورت تصادفی یکی از این سه گزینه را انتخاب می‌کند.
+        </li>
+        <li>نتیجه هر دور بر اساس قوانین زیر مشخص می‌شود:</li>
+        <li>🪨 سنگ، قیچی را می‌شکند.</li>
+        <li>📄 کاغذ، سنگ را می‌پوشاند.</li>
+        <li>✂️ قیچی، کاغذ را می‌برد.</li>
+        <li>
+          اگر هر دو بازیکن یک گزینه را انتخاب کنند، آن دور مساوی خواهد بود و
+          امتیازی به کسی تعلق نمی‌گیرد.
+        </li>
+      </ul>
+
+      <h3>پایان بازی</h3>
+      <p>
+        هر بازیکنی (شما یا کامپیوتر) که زودتر به <b>امتیاز هدف</b> برسد، برنده
+        نهایی بازی خواهد شد.<br />
+        پس از پایان بازی، نتیجه نهایی اعلام شده و بازی به صفحه ابتدایی
+        بازمی‌گردد تا بتوانید با وارد کردن یک امتیاز هدف جدید، بازی تازه‌ای را
+        آغاز کنید.
+      </p>
+
+      <div class="backedBtnGuidance">
+        <p><b>🎉 موفق باشید و از بازی لذت ببرید!</b></p>
+        <button type="button" id="backGuidance">شروع بازی</button>
+      </div>
+    </div>
+
+    <script>
+      const container = document.getElementById("container");
+      const user = document.getElementById("user");
+      const result = document.getElementById("result");
+      const computer = document.getElementById("computer");
+      const contBtn = document.getElementById("containerBtn");
+
+      const userPoint = document.querySelector(".point1");
+      const Equal = document.querySelector(".point2");
+      const computerPoint = document.querySelector(".point3");
+
+      const quizGame = document.getElementById("quizGame");
+      const intQuiz = document.getElementById("intQuiz");
+
+      const boxHistory = document.getElementById("container--history");
+      const Guidance = document.getElementById("Guidance");
+      const backGuidance = document.getElementById("backGuidance");
+
+      const btnStart = document.getElementById("btnStart");
+      const btnHistory = document.getElementById("btnHistory");
+      const btnGuidance = document.getElementById("btnGuidance");
+
+      const saveHistory = document.getElementById("saveHistory");
+      const backBtn = document.getElementById("backHistory");
+
+      let userP = 0;
+      let usecomE = 0;
+      let comP = 0;
+      let targetScore;
+
+      [container, Guidance, boxHistory].forEach((e) => {
+        e.classList.add("eventclass");
+      });
+
+      btnGuidance.addEventListener("click", () => {
+        quizGame.classList.add("eventclass");
+        Guidance.classList.remove("eventclass");
+      });
+
+      backGuidance.addEventListener("click", () => {
+        quizGame.classList.remove("eventclass");
+        Guidance.classList.add("eventclass");
+      });
+
+      backBtn.addEventListener("click", () => {
+        quizGame.classList.remove("eventclass");
+        boxHistory.classList.add("eventclass");
+      });
+
+      let checkedHistory = "تاریخچه خالی است";
+
+      btnHistory.addEventListener("click", () => {
+        // saveHistory.innerHTML = x.textContent;
+
+        if (saveHistory.innerHTML === "") {
+          saveHistory.textContent = checkedHistory;
+        } else {
+          checkedHistory = "";
+        }
+
+        quizGame.classList.add("eventclass");
+        boxHistory.classList.remove("eventclass");
+      });
+
+      let history = [];
+      let round = 0;
+      let Winner = "";
+
+      function getHistory() {
+        if (saveHistory.textContent === checkedHistory) {
+          saveHistory.textContent = ""; // پیام قدیمی رو پاک کن
+        }
+
+        const entry = `دور ${round} : امتیاز شما : ${userP} - امتیاز حریف : ${comP}  (${Winner})`;
+
+        history.push(entry);
+
+        let x = document.createElement("div");
+        x.textContent = entry;
+        saveHistory.append(x);
+
+        // history.push(`امتیاز شما:${userP} - امتیاز حریف:${comP}`);
+        // saveHistory.innerHTML = history.map((item) => `<div>${item}</div>`).join("");
+        // x.textContent = `دور ${round} : امتیاز شما : ${userP} - امتیاز حریف : ${comP}`;
+
+        // console.log(history);
+      }
+
+      intQuiz.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") startGame();
+      });
+
+      btnStart.addEventListener("click", startGame);
+
+      function startGame() {
+        targetScore = Number(intQuiz.value);
+
+        if (
+          intQuiz.value !== "" &&
+          !Number.isNaN(targetScore) &&
+          targetScore > 0
+        ) {
+          // quizGame.style.display = "none";
+          quizGame.classList.add("eventclass");
+          container.classList.remove("eventclass");
+          intQuiz.value = "";
+
+          userP = 0;
+          comP = 0;
+          usecomE = 0;
+          updateScoreBoard();
+        } else {
+          alert("یک عدد وارد کنید!!!");
+        }
+      }
+
+      function updateScoreBoard() {
+        userPoint.textContent = `امتیاز شما: ${userP}`;
+        Equal.textContent = `تساوی: ${usecomE}`;
+        computerPoint.textContent = `امتیاز حریف: ${comP}`;
+      }
+      updateScoreBoard();
+
+      let arr = ["🪨", "📄", "✂️"];
+
+      arr.forEach((e) => {
+        let btn = document.createElement("button");
+        btn.textContent = e;
+        contBtn.appendChild(btn);
+      });
+
+      contBtn.addEventListener("click", (e) => {
+        // let checkValue = Number(intQuiz.value)
+
+        if (e.target.tagName === "BUTTON") {
+          let userChoice = e.target.textContent;
+          user.textContent = userChoice;
+
+          const randomIndex = Math.floor(Math.random() * arr.length);
+          const computerChoice = arr[randomIndex];
+          computer.innerHTML = "";
+          computer.append(computerChoice);
+
+          result.textContent = "";
+
+          if (userChoice === computerChoice) {
+            result.textContent = "مساوی";
+            usecomE++;
+          } else if (
+            (userChoice === "🪨" && computerChoice === "✂️") ||
+            (userChoice === "📄" && computerChoice === "🪨") ||
+            (userChoice === "✂️" && computerChoice === "📄")
+          ) {
+            result.textContent = "برنده (تو بردی!)";
+            userP++;
+          } else {
+            result.textContent = "بازنده (باختی!)";
+            comP++;
+          }
+
+          updateScoreBoard();
+
+          function endGame(message, winnerText) {
+            setTimeout(() => {
+              alert(message);
+              quizGame.classList.remove("eventclass");
+              container.classList.add("eventclass");
+              [user, result, computer].forEach((e) => {
+                e.textContent = "";
+              });
+              round++;
+              Winner = winnerText;
+              getHistory();
+            }, 0);
+          }
+
+          if (userP === targetScore)
+            endGame("بازی تمام شد، شما برنده شدید", "برنده شدید");
+          if (comP === targetScore)
+            endGame("بازی تمام شد، شما باختید", "باختید");
+        }
+      });
+    </script>
+  </body>
+</html>
