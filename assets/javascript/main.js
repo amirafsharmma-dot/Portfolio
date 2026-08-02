@@ -27,9 +27,14 @@ navItems.forEach((item) => {
 const progressBars = document.querySelectorAll(".progress-bar");
 const arr = ["70%", "45%", "90%", "30%"];
 
-window.addEventListener("load", () => {
-  progressBars.forEach((bar, index) => {
-    const width = arr[index];
-    bar.style.width = width;
+progressBars.forEach((bar, index) => {
+  window.addEventListener("scroll", () => {
+    const top = bar.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+
+    if (top < windowHeight && top > 0) {
+      const width = arr[index];
+      bar.style.width = width;
+    }
   });
 });
